@@ -24,4 +24,3 @@ const authSlice = createSlice({
 
 export const { setCredentials, logout } = authSlice.actions;
 export default authSlice.reducer;
-export type RootState = ReturnType<typeof authSlice.reducer>;

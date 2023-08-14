@@ -1,13 +1,14 @@
-import { Navbar, Nav, Container, NavDropdown, Badge } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/UsersApiSlice';
 import { logout } from '../slices/AuthSlice';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from '../store';
 
 const Header = () => {
-  const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -15,7 +16,7 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
-      await logoutApiCall().unwrap();
+      await logoutApiCall({}).unwrap();
       dispatch(logout());
       navigate('/');
     } catch (err) {

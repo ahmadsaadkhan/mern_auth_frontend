@@ -8,6 +8,7 @@ import { setCredentials } from '../slices/AuthSlice';
 import { toast } from 'react-toastify';
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
+import { RootState } from '../store';
 
 interface FormData {
     name: string;
@@ -27,7 +28,7 @@ const RegisterScreen: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [register, { isLoading }] = useRegisterMutation();
-    const { userInfo } = useSelector((state) => state.auth);
+    const { userInfo } = useSelector((state:RootState) => state.auth);
 
     useEffect(() => {
         if (userInfo) {
@@ -44,7 +45,7 @@ const RegisterScreen: React.FC = () => {
             const res = await register({ ...formData }).unwrap();
             dispatch(setCredentials({ ...res }))
             navigate('/')
-        } catch (error) {
+        } catch (err: any) {
             toast.error(err?.data?.message || err.error);
             console.log(err?.data?.message || err.error);
         }

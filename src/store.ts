@@ -11,4 +11,5 @@ const Store = configureStore({
     devTools: true,
 });
 
+export type RootState = ReturnType<typeof Store.getState>;
 export default Store;

@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { FormEvent, ChangeEvent } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 
-import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCredentials } from '../slices/AuthSlice';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
 import { useUpdateUserMutation } from '../slices/UsersApiSlice';
+import { RootState } from '../store';
 
 interface FormData {
     name: string;
@@ -25,9 +25,8 @@ const ProfileScreen: React.FC = () => {
         confirmPassword: '',
     });
 
-    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { userInfo } = useSelector((state) => state.auth);
+    const { userInfo } = useSelector((state: RootState) => state.auth);
     const [updateProfile, { isLoading }] = useUpdateUserMutation();
 
     useEffect(() => {
@@ -43,7 +42,7 @@ const ProfileScreen: React.FC = () => {
             const res = await updateProfile({ _id:userInfo.id,  ...formData}).unwrap();
             dispatch(setCredentials({ ...res}));
             toast.success("Profile Updated")
-        } catch (error) {
+        } catch (err: any) {
             toast.error(err?.data?.message || err.error);
             console.log(err?.data?.message || err.error);
         }
